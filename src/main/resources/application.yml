@@ -1,0 +1,23 @@
+server:
+  port: 8085
+
+spring:
+  kafka:
+    bootstrap-servers: yms-test-event-hub.servicebus.windows.net:9093
+    client-id: first-service
+    properties:
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://yms-test-event-hub.servicebus.windows.net/;SharedAccessKeyName=sendReceiveOnly;SharedAccessKey=KeuW+wHLstYuLztIJq56ZKVvuDvXgazRESChoPjsVkA=";
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL
+    producer:
+      value-serializer: com.vishaluplanch.kafka.config.ProducerMessageSerializer
+    consumer:
+      group-id: $Default
+      auto-offset-reset: earliest
+      properties:
+        spring.json:
+          use.type.headers: false
+          value.default.type: com.vishaluplanch.kafka.model.SimpleMessage
+
+topic:
+  name: topic-exchange
